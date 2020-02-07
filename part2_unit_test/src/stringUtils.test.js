@@ -36,8 +36,8 @@ describe('formatString - basic functionality', () => {
 });
 
 describe('isAnagram - basic functionality', () => {
-// 'listen' 'silent'
-// 'elbow' 'below'
+  // 'listen' 'silent'
+  // 'elbow' 'below'
   it('returns true when two known anagrams are passed in', () => {
     const expected = true;
     const actual = isAnagram('listen', 'silent');
