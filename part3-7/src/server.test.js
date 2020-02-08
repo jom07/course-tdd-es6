@@ -2,7 +2,7 @@
 import sinon from 'sinon';
 import request from 'supertest';
 import { expect } from 'chai';
-import db from './db';
+import DB from './db';
 import { app } from './server';
 
 describe('GET /users/:username', () => {
@@ -14,7 +14,7 @@ describe('GET /users/:username', () => {
     };
 
     const stub = sinon
-      .stub(db, 'getUserByUsername')
+      .stub(DB, 'getUserByUsername')
       .resolves(fakeData);
 
     await request(app).get('/users/abc')
@@ -30,7 +30,7 @@ describe('GET /users/:username', () => {
   it('sends the correct response when there is an error', async () => {
     const fakeError = { message: 'Something went wrong!' };
 
-    const stub = sinon.stub(db, 'getUserByUsername')
+    const stub = sinon.stub(DB, 'getUserByUsername')
       .throws(fakeError);
 
     await request(app).get('/users/abc')
@@ -42,7 +42,7 @@ describe('GET /users/:username', () => {
   });
 
   it('returns the appropriate response when the user is not found', async () => {
-    const stub = sinon.stub(db, 'getUserByUsername')
+    const stub = sinon.stub(DB, 'getUserByUsername')
       .resolves(null);
 
     await request(app).get('/users/def')

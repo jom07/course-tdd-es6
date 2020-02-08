@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 import { expect } from 'chai';
-import { getUserByUsername } from './db';
+import DB from './db';
 import { getDatabaseData, setDatabaseData, resetDatabase } from './test-helpers';
 
 describe('getUserByUsername', () => {
@@ -22,7 +22,7 @@ describe('getUserByUsername', () => {
 
     await setDatabaseData('users', fakeData);
 
-    const actual = await getUserByUsername('abc');
+    const actual = await DB.getUserByUsername('abc');
     const finalDBState = await getDatabaseData('users');
 
     const expected = {
@@ -42,7 +42,7 @@ describe('getUserByUsername', () => {
       email: 'nobody@gmail.com',
     }]);
 
-    const actual = await getUserByUsername('def');
+    const actual = await DB.getUserByUsername('def');
 
     expect(actual).to.be.null;
   });

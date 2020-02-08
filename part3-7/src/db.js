@@ -1,26 +1,31 @@
 import { MongoClient } from 'mongodb';
 
-const DB_NAME = process.env.NODE_ENV === 'test'
-    ? 'TEST_DB'
-    : 'PROD_DB';
+class DB {
+  constructor(host = 'localhost', port = 27017) {
+    this.dbName = process.env.NODE_ENV === 'test'
+      ? 'TEST_DB'
+      : 'PROD_DB';
+    this.host = host;
+    this.port = port;
+  }
 
-export const getUserByUsername = async username => {
+  async getUserByUsername(username) {
     const client = await MongoClient.connect(
-        `mongodb://localhost:27017/${DB_NAME}`,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
+      `mongodb://${this.host}:${this.port}/${this.dbName}`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
     );
-    const db = client.db(DB_NAME);
+    const db = client.db(this.dbName);
 
     const result = await db.collection('users').findOne({ username });
 
     client.close();
 
     return result;
+  }
 }
 
-export default {
-    getUserByUsername,
-};
+// Just to export an instanciated DB for testing purposes.
+export default new DB();
